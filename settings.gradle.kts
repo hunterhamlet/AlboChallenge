@@ -14,4 +14,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "AlboChallenge"
-include(":app")
+include(":albochallengecompose")
+include(":albochallengenormal")
