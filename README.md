@@ -5,16 +5,17 @@
 **Explique los principios de la arquitectura MVVM. ¿Por qué es preferible sobre MVC en
 desarrollo Android?**
 
-R:
+R: A mi ver, la arquitectura MVVM, cuenta con muchas ventajas sobre MVC, nos muestra que por ejemplo; las clases se vuelven mas simples de entender.
+Tambien existen clases qeu delegan de mucha responsabilidad a la vista, por ejemplo em MVC generalmente cargamos todo, las peticiones, la logica, las conversiones, pero en MVVM, tenemos clases que tienen su funcion especifica, esto delega de responsabilidad a la vista. Por ejemplo si lo conbinamos con MVI y Clean, tenemos los ```datasource```, encargados de la fuente de datos, los ```repositories``` que son los encargados, al menos yo los considero asi, de pasar los datos de la capa de ```data``` a los datos del ```dominio```, por ultimo tenemos los ```usecases```, que son los encargados de tener una unica responsabilidad. Esto sultimos son los encargados de inyectarse a los ```viewModels```, y el dentro de este ultimo podemos convertir, darle formato, etc; dejarlo listos para que la vista lo tome y lo muestre.
 
 **Describa cómo Koin facilita la inyección de dependencia en aplicaciones Android.**
 
-R:
+R: Koin es una libreria que nos ayuda a la inyección de dependencias, pero lo que lo hace mas fácil, es que la curva de aprendizaje es muy rapida, al principio puede que te cueste trabajo, sin embargo, conforme avanzas, se vuelve mas fluido, ademas cuenta con ```funciones``` que nos facilita el uso, por ejemplo, ```inject()```, ```viewModel()```, ```activityViewModel()```. Ademas la inyeccion es sencilla, lo haces desde el constructor, o directamente con la funcion ```inject```().
 
 **Compare Retrofit y Volley para realizar llamadas de red en Android. ¿Cuáles son las
 ventajas de usar uno sobre el otro?**
 
-R:
+R: En mi caso no he ocupado volley, sin embargo puedo decir que al ver la documentación, ```Volley``` se me hace un poco mas complejo, debido a que tienes que configurar el cache, el tipo de petición, el requestClient (por asi decirlo) y luego ya realizar el request. A diferencia de ```Retrofit```, que solo creas un client y este puede ser utilizado con las distintos servicios a ocupar. A mi parecer, volley es para ser ocupado en una arquitectura como MVC, la cual haces peticiones en la vista, y Retrofit es mas para aplicaciones con arquitecturas mas robustas, se puede inyectar, se puede realizar un logging, etc, tiene adaptadores para parsear los datos en automatico,.
 
 ## Ejercicios Prácticos con Código:
 
@@ -314,7 +315,396 @@ fun getDeferredCharacters() {
 
 #### **Ejemplo de UI**
 
-## Preguntas de Resolución de Problemas
+En este caso agregare un custom view donde podremos ver el componente en xml:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
 
+    <TextView
+        android:id="@+id/tv_actual_count"
+        android:text="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/container_bar" />
+
+    <TextView
+        android:id="@+id/tv_limit_count"
+        android:text="25/25 tarjetazos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_actual_count"
+        app:layout_constraintBottom_toBottomOf="@id/tv_actual_count"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/count_one"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:background="@drawable/view_rounded"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/count_two"
+            android:backgroundTint="@android:color/holo_blue_bright"/>
+
+        <View
+            android:id="@+id/divider_one"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="@id/count_one"
+            app:layout_constraintBottom_toBottomOf="@id/count_one"
+            app:layout_constraintStart_toEndOf="@id/count_one"
+            app:layout_constraintEnd_toStartOf="@id/count_two"
+            android:background="@android:color/darker_gray"/>
+
+        <View
+            android:id="@+id/count_two"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            app:layout_constraintTop_toTopOf="@id/count_one"
+            app:layout_constraintBottom_toBottomOf="@id/count_one"
+            app:layout_constraintStart_toEndOf="@id/count_one"
+            app:layout_constraintEnd_toStartOf="@id/count_three"
+            android:background="@android:color/holo_blue_bright"/>
+
+        <View
+            android:id="@+id/divider_two"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="@id/count_one"
+            app:layout_constraintBottom_toBottomOf="@id/count_one"
+            app:layout_constraintStart_toEndOf="@id/count_two"
+            app:layout_constraintEnd_toStartOf="@id/count_three"
+            android:background="@android:color/darker_gray"/>
+
+        <View
+            android:id="@+id/count_three"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            app:layout_constraintTop_toTopOf="@id/count_one"
+            app:layout_constraintBottom_toBottomOf="@id/count_one"
+            app:layout_constraintStart_toEndOf="@id/count_two"
+            app:layout_constraintEnd_toStartOf="@id/count_four"
+            android:background="@android:color/holo_blue_bright"/>
+
+        <View
+            android:id="@+id/divider_three"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="@id/count_one"
+            app:layout_constraintBottom_toBottomOf="@id/count_one"
+            app:layout_constraintStart_toEndOf="@id/count_three"
+            app:layout_constraintEnd_toStartOf="@id/count_four"
+            android:background="@android:color/darker_gray"/>
+
+        <View
+            android:id="@+id/count_four"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            app:layout_constraintTop_toTopOf="@id/count_one"
+            app:layout_constraintBottom_toBottomOf="@id/count_one"
+            app:layout_constraintStart_toEndOf="@id/count_three"
+            app:layout_constraintEnd_toStartOf="@id/count_five"
+            android:background="@android:color/holo_blue_bright"/>
+
+        <View
+            android:id="@+id/divider_four"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="@id/count_one"
+            app:layout_constraintBottom_toBottomOf="@id/count_one"
+            app:layout_constraintStart_toEndOf="@id/count_four"
+            app:layout_constraintEnd_toStartOf="@id/count_five"
+            android:background="@android:color/darker_gray"/>
+
+        <View
+            android:id="@+id/count_five"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:rotation="180"
+            app:layout_constraintTop_toTopOf="@id/count_one"
+            app:layout_constraintBottom_toBottomOf="@id/count_one"
+            app:layout_constraintStart_toEndOf="@id/count_four"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/view_rounded"
+            android:backgroundTint="@android:color/holo_blue_bright"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+Y posteriormente la clase encargada de darle superpoderes:
+```kotlin
+class CountViewCustom @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : ConstraintLayout(context, attrs, defStyleAttr) {
+
+    private val binding: CustomViewCountBinding =
+        CustomViewCountBinding.inflate(LayoutInflater.from(context), this, true)
+
+    private val listPainView = mutableListOf(
+        binding.countOne,
+        binding.countTwo,
+        binding.countThree,
+        binding.countFour,
+        binding.countFive
+    )
+
+    private var actualCount: Int = 0
+    private var maxCount: Int = 0
+
+    fun setupCounter(actualCount: Int, maxCount: Int) {
+        this.actualCount = actualCount
+        this.maxCount = maxCount
+        binding.tvLimitCount.text = "${actualCount}/${maxCount} tarjetazos"
+        checkActiveSegments()
+    }
+
+    fun updateSegments(updateValue: Int){
+        this.actualCount = updateValue
+        checkActiveSegments()
+    }
+
+    private fun checkActiveSegments() {
+        val result = (actualCount * 100) / maxCount
+
+        when{
+            result >= 20 && result < 40 -> {
+                listPainView[0].active()
+                listPainView[1].disable()
+                listPainView[2].disable()
+                listPainView[3].disable()
+                listPainView[4].disable()
+            }
+            result >= 40 && result < 60 -> {
+                listPainView[0].active()
+                listPainView[1].active()
+                listPainView[2].disable()
+                listPainView[3].disable()
+                listPainView[4].disable()
+            }
+            result >= 60 && result < 80 -> {
+                listPainView[0].active()
+                listPainView[1].active()
+                listPainView[2].active()
+                listPainView[3].disable()
+                listPainView[4].disable()
+            }
+            result >= 80 && result < 100 -> {
+                listPainView[0].active()
+                listPainView[1].active()
+                listPainView[2].active()
+                listPainView[3].active()
+                listPainView[4].disable()
+            }
+            result >= 100 -> {
+                listPainView[0].active()
+                listPainView[1].active()
+                listPainView[2].active()
+                listPainView[3].active()
+                listPainView[4].active()
+            }
+            else -> {
+                listPainView[0].disable()
+                listPainView[1].disable()
+                listPainView[2].disable()
+                listPainView[3].disable()
+                listPainView[4].disable()
+            }
+
+        }
+    }
+
+    private fun View.active() {
+        this.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this.context, android.R.color.holo_blue_bright))
+    }
+
+    private fun View.disable() {
+        this.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this.context, android.R.color.holo_red_dark))
+    }
+
+
+}
+```
+
+Por ultimo se muestra la implementación en el activity y una imagen de como se ve:
+
+XML
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".features.exercises_practice_code.presentation.screens.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.hamon.albochallengenormal.components.CountViewCustom
+        android:id="@+id/custom_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:translationZ="5dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+Activity
+```kotlin
+class MainActivity : AppCompatActivity() {
+
+    private val binding: ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+        binding.customView.setupCounter(15, 25)
+    }
+}
+```
+
+Imagen de implementación
+
+TODO: Agregar la imagen aqui
+
+###### Componente en compose
+
+```kotlin
+@Composable
+fun CountCustom(actualCount: Int, maxCount: Int) {
+
+    val result = (actualCount * 100) / maxCount
+
+    Column {
+        Row(
+            modifier = Modifier
+                .height(10.dp)
+                .fillMaxWidth()
+        ) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(weight = 1f, fill = true),
+                color = if (result > 0) Color.Blue else Color.Red,
+                shape = RoundedCornerShape(topStart = 20.dp, bottomStart = 20.dp)
+            ) {
+
+            }
+            Divider(
+                modifier = Modifier
+                    .width(1.dp)
+                    .fillMaxHeight(),
+                color = Color.White
+            )
+            Surface(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(weight = 1f, fill = true),
+                color = if (result > 20) Color.Blue else Color.Red,
+            ) {
+
+            }
+            Divider(
+                modifier = Modifier
+                    .width(1.dp)
+                    .fillMaxHeight(),
+                color = Color.White
+            )
+            Surface(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(weight = 1f, fill = true),
+                color = if (result > 40) Color.Blue else Color.Red,
+            ) {
+
+            }
+            Divider(
+                modifier = Modifier
+                    .width(1.dp)
+                    .fillMaxHeight(),
+                color = Color.White
+            )
+            Surface(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(weight = 1f, fill = true),
+                color = if (result > 60) Color.Blue else Color.Red,
+            ) {
+
+            }
+            Divider(
+                modifier = Modifier
+                    .width(1.dp)
+                    .fillMaxHeight(),
+                color = Color.White
+            )
+            Surface(
+                modifier = Modifier
+                    .weight(weight = 1f, fill = true)
+                    .fillMaxHeight(), color = if (result > 80) Color.Blue else Color.Red,
+                shape = RoundedCornerShape(topEnd = 20.dp, bottomEnd = 20.dp)
+            ) {
+
+            }
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(text = "0")
+            Surface(modifier = Modifier.weight(1f)) {
+
+            }
+            Text(text = "0/25 tarjetazos")
+        }
+    }
+}
+```
+
+Para intergarlo en una pantalla se realiza de la siguiente manera:
+```kotlin
+@Composable
+fun CodeExercisesScreen() {
+    CountCustom(actualCount = 5, maxCount = 25 )
+}
+```
+
+## Preguntas de Resolución de Problemas
+#### **Dada una situación donde una aplicación Android se enfrenta a problemas de memoria debido al manejo incorrecto de contextos, ¿cómo lo solucionaría?**
+
+R: Actualmente, no me ha tocado resolver problemas de memoria, por contextos, mas bien me toco un problema de memoria, pero por que teniamos una sola actividad para manejar todos los flujos, no esta mal, sin embargo; pasabamos datos atravez de todos los flujos, he ibamos recolectando un bundle, con estos datos, entonces, si por ejemplo tenias varios datos recolectados de distintos flujos, y tenias un objeto a guardar muy grande, esto ocacionaba de la app muriera. La manera en la que propuse resolver esto fue que cada flujo tuviera su actividad propia, es decir, tuvieramos el home con una actividad, y cuando iniciaramos un flujo, mandaramos un intent para iniciar una actividad, donde viviera todo el flujo, navGraph, fragments, viewModel compartido etc, esta propuesta soluciono el problema. En otro caso por ejemplo, teniamos problemas con el back, por que haciamos lo mismo, almacenabamos como tal el objeto ```Parcelable``` o ```Serializable```, y esto rompia la app, una manera de solicionarlo fue pasar como tal, el objeto ```JSON```, como un string, asi no manejabamos parcelables solo serializabamos y deserializabamos a nuestra manera con ``JSON``.
+
+#### **Si una aplicación experimenta retardos debido a operaciones de red en el hilo principal, ¿cómo optimizaría el código?**
+
+R: Generalment, no ocupo el hilo principal para las peticiones. Lo que ocupo es un ```scope``` en el ```viewModel```, y dentro un ```Dispatcher.IO```, con esto evito problemas con el hilo principal, ahora para mostrar los datos, ocupo ```postValue()```, para poder brindar los datos a mostrar al ```LiveData```. Para recoger los datos, podemos ocupar ```RxJava``` o ```Flows```.
 
 ## Caso de Estudio
