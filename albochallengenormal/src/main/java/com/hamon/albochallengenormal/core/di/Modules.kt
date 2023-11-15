@@ -27,12 +27,12 @@ val datasources = module {
 }
 
 val repositories = module {
-    single { RickAndMortyRepositoryImpl() as RickAndMortyRepository }
+    single { RickAndMortyRepositoryImpl(get()) as RickAndMortyRepository }
 }
 
 val useCases = module {
     singleOf(::GetCharacterUseCaseImpl) { bind<GetCharacterUseCase>() }
-    single<GetCharacterDeferredUseCase> { GetCharacterDeferredUseCaseImpl() }
+    single<GetCharacterDeferredUseCase> { GetCharacterDeferredUseCaseImpl(get()) }
 }
 
 val viewModels = module {
