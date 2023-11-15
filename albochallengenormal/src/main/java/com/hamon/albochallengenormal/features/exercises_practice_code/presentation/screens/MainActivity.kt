@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupObservables()
         setupRequest()
-
+        binding.customView.setupCounter(15, 25)
     }
 
     private fun setupRequest() {
