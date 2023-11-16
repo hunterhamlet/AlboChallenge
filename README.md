@@ -711,7 +711,7 @@ fun CodeExercisesScreen() {
 ```
 Imagen de implementación en componente Compose
 
-![Componente XML](https://drive.google.com/file/d/1PHfdaJIv_Bqr4lqSM2_Y53DYVMsfPCxE/view?usp=sharing)
+![Componente XML](https://drive.google.com/drive/u/0/folders/1E0vhJAhlZFksAlqKWY7fBoPSx3NbglOu)
 
 ## Preguntas de Resolución de Problemas
 #### **Dada una situación donde una aplicación Android se enfrenta a problemas de memoria debido al manejo incorrecto de contextos, ¿cómo lo solucionaría?**
