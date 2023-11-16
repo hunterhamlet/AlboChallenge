@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("io.objectbox")
 }
 
 android {
@@ -77,6 +78,13 @@ dependencies {
     // Coroutines for asynchronous calls (and Deferred’s adapter)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    // Object box
+    implementation("io.objectbox:objectbox-kotlin:3.7.1")
+
+    // States
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.2")
 
 
     // Test

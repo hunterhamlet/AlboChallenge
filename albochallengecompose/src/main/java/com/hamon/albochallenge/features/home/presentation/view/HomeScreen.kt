@@ -1,4 +1,4 @@
-package com.hamon.albochallenge.core
+package com.hamon.albochallenge.features.home.presentation.view
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun HomeScreen(moveToCodeExercisesScreen: () -> Unit, moveToStudioCaseScreen: () -> Unit) {
+fun HomeScreen(moveToCodeExercisesScreen: () -> Unit, moveToNoteApp: () -> Unit) {
     Column {
         Spacer(modifier = Modifier.height(32.dp))
         Button(
@@ -27,9 +27,9 @@ fun HomeScreen(moveToCodeExercisesScreen: () -> Unit, moveToStudioCaseScreen: ()
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp), onClick = moveToCodeExercisesScreen
+                .padding(16.dp), onClick = moveToNoteApp
         ) {
-            Text(text = "Caso de estudio")
+            Text(text = "Note App")
         }
     }
 }
@@ -37,5 +37,5 @@ fun HomeScreen(moveToCodeExercisesScreen: () -> Unit, moveToStudioCaseScreen: ()
 @Composable
 @Preview(showSystemUi = true)
 fun HomeScreenPreview() {
-    HomeScreen(moveToCodeExercisesScreen = {}, moveToStudioCaseScreen = {})
+    HomeScreen(moveToCodeExercisesScreen = {}, moveToNoteApp = {})
 }

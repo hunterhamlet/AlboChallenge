@@ -1,15 +1,18 @@
-package com.hamon.albochallenge.core
+package com.hamon.albochallenge.core.navigation
 
 
+import ListToTaskScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.hamon.albochallenge.features.home.presentation.view.HomeScreen
 import com.hamon.albochallenge.features.practice_code_excercises.presentation.view.CodeExercisesScreen
 
 sealed class Screen(val route: String) {
     data object Home : Screen("home_screen")
-    data object CodeExercices : Screen("code_excercises_screen")
+    data object CodeExercicesScreen : Screen("code_excercises_screen")
+    data object ListToTaskScreen : Screen("todo_list_screen")
 }
 
 @Composable
@@ -22,15 +25,21 @@ fun MainNavigationView() {
 
         // Home
         composable(Screen.Home.route) {
-            HomeScreen(moveToStudioCaseScreen = {}, moveToCodeExercisesScreen = {
-                navController.navigate(Screen.CodeExercices.route)
-            })
+            HomeScreen(
+                moveToNoteApp = { navController.navigate(Screen.ListToTaskScreen.route) },
+                moveToCodeExercisesScreen = {
+                    navController.navigate(Screen.CodeExercicesScreen.route)
+                })
         }
 
         //Code exercices
-        // Home
-        composable(Screen.CodeExercices.route) {
+        composable(Screen.CodeExercicesScreen.route) {
             CodeExercisesScreen()
+        }
+
+        //List to task
+        composable(Screen.ListToTaskScreen.route) {
+            ListToTaskScreen()
         }
     }
 
