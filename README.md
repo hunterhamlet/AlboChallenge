@@ -1,5 +1,16 @@
 # Assignment Android Dev
 
+## Aclaraciones
+
+Que tal, dejo estas aclaracións sencillas:
+* El proyecto contiene dos aplicaciones, una que se llama ```albochallengenormal```, este contiene por ejemplo el componente custom en xml, y el consumo de servicios REST de una ```API``` de Rick & Morty, esta solo hace la petición y muestra a los 20 primeros caracteres. El segundo proyecto esta realizado en ```compose```, se llama ```albochallengecompose```, en esta aplicacion vive de igual manera el componente creado en compose, y tambien la aplicación de notas, es sencilla pero quiero creer que simula lo que yo haria para comenzar una nueva aplicación.
+* Agrege unos enlaces para las imagenes, estas imagenes se muestran en drive.
+* El proyecto como ya comente, pueden entrar a las apps y ver las librerias que ocupe, como estructure el proyecto, como lo realice, etc.
+* Por ultimo dejo dos videos, el primero es la aplicación ```albochallengenormal```, muestra el componente y una lista de caracteres. El segundo video es la aplicación ```albochallengecompose``` que muestra un home el cual contiene, dos botones, el primero muestra el componente, el segundo es la app de notas, este ultimo puedes agregar y remover las notas. Para agregar notas es en el FloatingActionButton, para editar es darle tap a las cards de las notas, y para borrarlas es dejar presionado la card de la task, espero se vea bien en el video.
+* Ya para acabar, espero entiendan el proyecto, en dado caso no lo entiendan, preguntenme y con todo gusto les respondo, y espero no sea mucho texto.
+
+**Muchas Gracias**
+
 ## Preguntas Teóricas
 
 **Explique los principios de la arquitectura MVVM. ¿Por qué es preferible sobre MVC en
@@ -591,9 +602,10 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-Imagen de implementación
+Imagen de implementación en componente XML
 
-TODO: Agregar la imagen aqui
+
+![Componente XML](https://drive.google.com/file/d/1BOaagBbLJrEf6-fxWUC3IUpXVA2N0YSh/view?usp=sharing)
 
 ###### Componente en compose
 
@@ -697,6 +709,9 @@ fun CodeExercisesScreen() {
     CountCustom(actualCount = 5, maxCount = 25 )
 }
 ```
+Imagen de implementación en componente Compose
+
+![Componente XML](https://drive.google.com/file/d/1PHfdaJIv_Bqr4lqSM2_Y53DYVMsfPCxE/view?usp=sharing)
 
 ## Preguntas de Resolución de Problemas
 #### **Dada una situación donde una aplicación Android se enfrenta a problemas de memoria debido al manejo incorrecto de contextos, ¿cómo lo solucionaría?**
@@ -708,3 +723,42 @@ R: Actualmente, no me ha tocado resolver problemas de memoria, por contextos, ma
 R: Generalment, no ocupo el hilo principal para las peticiones. Lo que ocupo es un ```scope``` en el ```viewModel```, y dentro un ```Dispatcher.IO```, con esto evito problemas con el hilo principal, ahora para mostrar los datos, ocupo ```postValue()```, para poder brindar los datos a mostrar al ```LiveData```. Para recoger los datos, podemos ocupar ```RxJava``` o ```Flows```.
 
 ## Caso de Estudio
+
+A continuación se muestra la arquitectura de la aplicación en una V1.
+
+![Arquitectura de aplicación](https://drive.google.com/file/d/1ZdwQPYLG55aBp6bKz5hbzTgOdD-dg3LM/view?usp=sharing)
+
+## **V1**
+
+Para esta version (V1) se describira abajo la manera de como se implemento y con que librerias fueron de nuestra ayuda:
+
+### Librerias.
+
+* **Compose**: Se ocupa para poder crear las vistas, no tengo mucha experiencia, pero fue sencillo de implementar una lista de tareas local.
+
+* **Koin**: Se ocupa para poder crear he inyectar dependencias, facilita el desarrollo y lo vuelve mas agile.
+
+* **ObjectBox**: Se ocupa para poder almacenar de manera local, es una DB como lo es, Room, Realm, etc.
+
+### Estructura de carpetas y arquitectura.
+
+Para la arquitectura de la aplciación se tomo una arquitectura de folders tipo Clean Architecture, y MVVM, a continuacion se muestra las estructuras de carpetas y se describe las capas que se tienen.
+
+![estructura de folders](https://drive.google.com/file/d/1wb7lZIF_puzmV9l8gNl2ViVGftjUuJF2/view?usp=sharing)
+
+* **Datasource**: Esta capa se encarga de poder obtener los datos, asi como realizar las peticiones a los servicios o a la base de datos local, en este caso solo lo tenemos en una BD local, para una V2 es posible agregar una servicio para guardarlos en la nube. En esta capa llegan los datos tal cual el servicio los entrega, en mi caso le llamo **DATA**.
+
+* **Repository**: Esta capa es la encargada de unir los datos crudos, con los datos del tipo **DOMAIN**, podemos extraer los datos necesarios para mostrar.
+
+* **UseCases**: Esta capa es la encargada de unir la capa **DOMAIN**, con parte de la capa de presentacion, **ViewModel**. Esta capa crea una responsabilidad unica para cada caso de uso, es decir, se crea un caso de uso exclusivo para cada situación, en este caso tenemos 5 casos de uso, 4 para el CRUD y uno mas para obtener todas las tareas.
+
+* **ViewModel**: La penultima capa, es la encargada de darle formato a los datos, es decir, si tenemos fechas, moneda, etc, que se tenga que mostrar en las vistas o composables, esta capa es la ideal, a mi ver, para hacer estos formatos.
+
+* **Composable o Screen**: La última capa, la cara al usuario, en esta capa ya pasamos los datos que debemos mostrar al usuario, en este caso las notas que el usuario a agregado, o el componente previamente realizado.
+
+## **Mejoras V2**
+
+![Arquitectura de aplicación V2](https://drive.google.com/file/d/1xwVmUiRmhEDk8NcODnhCeiUa7YNHX1DE/view?usp=sharing)
+
+En este caso lo unico que agregaria seria los servicios cloud, ya sea por medio de servicios rest, graphQL, Firebase, etc, ya que siento que la aplicación es escalable. De igual manera refactorizaria la parte y la haria modular, para que pueda agregarse mas features, pero esto ultimo esta pendiente de ser analizado, ya que al ser una aplciación simple, la estructura que tiene es ideal para su tarea.
+
