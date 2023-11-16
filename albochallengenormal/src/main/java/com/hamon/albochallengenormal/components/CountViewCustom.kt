@@ -45,9 +45,16 @@ class CountViewCustom @JvmOverloads constructor(
         val result = (actualCount * 100) / maxCount
 
         when{
-            result >= 20 && result < 40 -> {
+            result > 0 && result < 20 -> {
                 listPainView[0].active()
                 listPainView[1].disable()
+                listPainView[2].disable()
+                listPainView[3].disable()
+                listPainView[4].disable()
+            }
+            result >= 20 && result < 40 -> {
+                listPainView[0].active()
+                listPainView[1].active()
                 listPainView[2].disable()
                 listPainView[3].disable()
                 listPainView[4].disable()
@@ -55,7 +62,7 @@ class CountViewCustom @JvmOverloads constructor(
             result >= 40 && result < 60 -> {
                 listPainView[0].active()
                 listPainView[1].active()
-                listPainView[2].disable()
+                listPainView[2].active()
                 listPainView[3].disable()
                 listPainView[4].disable()
             }
@@ -63,17 +70,10 @@ class CountViewCustom @JvmOverloads constructor(
                 listPainView[0].active()
                 listPainView[1].active()
                 listPainView[2].active()
-                listPainView[3].disable()
-                listPainView[4].disable()
-            }
-            result >= 80 && result < 100 -> {
-                listPainView[0].active()
-                listPainView[1].active()
-                listPainView[2].active()
                 listPainView[3].active()
                 listPainView[4].disable()
             }
-            result >= 100 -> {
+            result >= 80 -> {
                 listPainView[0].active()
                 listPainView[1].active()
                 listPainView[2].active()
