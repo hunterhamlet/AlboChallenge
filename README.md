@@ -9,6 +9,17 @@ Que tal, dejo estas aclaracións sencillas:
 * Por ultimo dejo dos videos, el primero es la aplicación ```albochallengenormal```, muestra el componente y una lista de caracteres. El segundo video es la aplicación ```albochallengecompose``` que muestra un home el cual contiene, dos botones, el primero muestra el componente, el segundo es la app de notas, este ultimo puedes agregar y remover las notas. Para agregar notas es en el FloatingActionButton, para editar es darle tap a las cards de las notas, y para borrarlas es dejar presionado la card de la task, espero se vea bien en el video.
 * Ya para acabar, espero entiendan el proyecto, en dado caso no lo entiendan, preguntenme y con todo gusto les respondo, y espero no sea mucho texto.
 
+Aplicación ```albochallengecompose```
+
+![FILE 2023-11-16 16 26 29](https://github.com/hunterhamlet/AlboChallenge/assets/17347538/32168443-6e1f-4ad8-8013-6287798befb3)
+
+
+
+Aplicación ```albochallengenormal```
+
+![XRecorder_16112023_170626(1)](https://github.com/hunterhamlet/AlboChallenge/assets/17347538/c769ed47-ed1c-4491-88a3-4c3c78087549)
+
+
 **Muchas Gracias**
 
 ## Preguntas Teóricas
@@ -604,8 +615,8 @@ class MainActivity : AppCompatActivity() {
 
 Imagen de implementación en componente XML
 
+![image_xml_component](https://github.com/hunterhamlet/AlboChallenge/assets/17347538/8e1b7e1e-23dc-4df5-ab25-2ef177e9bed5)
 
-![Componente XML](https://drive.google.com/file/d/1BOaagBbLJrEf6-fxWUC3IUpXVA2N0YSh/view?usp=sharing)
 
 ###### Componente en compose
 
@@ -711,12 +722,14 @@ fun CodeExercisesScreen() {
 ```
 Imagen de implementación en componente Compose
 
-![Componente XML](https://drive.google.com/drive/u/0/folders/1E0vhJAhlZFksAlqKWY7fBoPSx3NbglOu)
+
+![image_compose_component](https://github.com/hunterhamlet/AlboChallenge/assets/17347538/7a19debf-13c7-4741-a0db-587cd3ffa65f)
+
 
 ## Preguntas de Resolución de Problemas
 #### **Dada una situación donde una aplicación Android se enfrenta a problemas de memoria debido al manejo incorrecto de contextos, ¿cómo lo solucionaría?**
 
-R: Actualmente, no me ha tocado resolver problemas de memoria, por contextos, mas bien me toco un problema de memoria, pero por que teniamos una sola actividad para manejar todos los flujos, no esta mal, sin embargo; pasabamos datos atravez de todos los flujos, he ibamos recolectando un bundle, con estos datos, entonces, si por ejemplo tenias varios datos recolectados de distintos flujos, y tenias un objeto a guardar muy grande, esto ocacionaba de la app muriera. La manera en la que propuse resolver esto fue que cada flujo tuviera su actividad propia, es decir, tuvieramos el home con una actividad, y cuando iniciaramos un flujo, mandaramos un intent para iniciar una actividad, donde viviera todo el flujo, navGraph, fragments, viewModel compartido etc, esta propuesta soluciono el problema. En otro caso por ejemplo, teniamos problemas con el back, por que haciamos lo mismo, almacenabamos como tal el objeto ```Parcelable``` o ```Serializable```, y esto rompia la app, una manera de solicionarlo fue pasar como tal, el objeto ```JSON```, como un string, asi no manejabamos parcelables solo serializabamos y deserializabamos a nuestra manera con ``JSON``.
+R: Actualmente, no me ha tocado resolver problemas de memoria, por contextos, mas bien me toco un problema de memoria, pero por que teniamos una sola actividad para manejar todos los flujos, no esta mal, sin embargo; pasabamos datos atravez de todos los flujos, he ibamos recolectando un bundle, con estos datos, entonces, si por ejemplo tenias varios datos recolectados de distintos flujos, y tenias un objeto a guardar muy grande, esto ocacionaba de la app muriera. La manera en la que propuse resolver esto fue que cada flujo tuviera su actividad propia, es decir, tuvieramos el home con una actividad, y cuando iniciaramos un flujo, mandaramos un intent para iniciar una actividad, donde viviera todo el flujo, navGraph, fragments, viewModel compartido etc, esta propuesta soluciono el problema. En otro caso por ejemplo, teniamos problemas con el back, por que haciamos lo mismo, almacenabamos como tal el objeto ```Parcelable``` o ```Serializable```, y esto rompia la app, una manera de solicionarlo fue pasar como tal, el objeto ```JSON```, como un string, asi no manejabamos parcelables solo serializabamos y deserializabamos a nuestra manera con ``JSON``. Sin embargo lo que haria seria primero debuggear con Logcat, es decir ver donde se esta presentnado el error, posteriormente, veria la clase que presenta este problema, investigaria el porque, ya sea en la documentación de la lirberia, si es por eso, o directamente en StackOverflow, si hay alguna respuesta, analizo que es lo que esta haciendo, la pruebo y si no sigo investigando hasta quedar con ella.
 
 #### **Si una aplicación experimenta retardos debido a operaciones de red en el hilo principal, ¿cómo optimizaría el código?**
 
@@ -726,7 +739,8 @@ R: Generalment, no ocupo el hilo principal para las peticiones. Lo que ocupo es 
 
 A continuación se muestra la arquitectura de la aplicación en una V1.
 
-![Arquitectura de aplicación](https://drive.google.com/file/d/1ZdwQPYLG55aBp6bKz5hbzTgOdD-dg3LM/view?usp=sharing)
+![arch_app](https://github.com/hunterhamlet/AlboChallenge/assets/17347538/dc08ae10-da50-4a88-b438-874ede73d5a8)
+
 
 ## **V1**
 
@@ -744,7 +758,8 @@ Para esta version (V1) se describira abajo la manera de como se implemento y con
 
 Para la arquitectura de la aplciación se tomo una arquitectura de folders tipo Clean Architecture, y MVVM, a continuacion se muestra las estructuras de carpetas y se describe las capas que se tienen.
 
-![estructura de folders](https://drive.google.com/file/d/1wb7lZIF_puzmV9l8gNl2ViVGftjUuJF2/view?usp=sharing)
+![folder_structure](https://github.com/hunterhamlet/AlboChallenge/assets/17347538/550e9ef1-604e-4ab9-a2d0-9b85c1aaeaf7)
+
 
 * **Datasource**: Esta capa se encarga de poder obtener los datos, asi como realizar las peticiones a los servicios o a la base de datos local, en este caso solo lo tenemos en una BD local, para una V2 es posible agregar una servicio para guardarlos en la nube. En esta capa llegan los datos tal cual el servicio los entrega, en mi caso le llamo **DATA**.
 
@@ -758,7 +773,8 @@ Para la arquitectura de la aplciación se tomo una arquitectura de folders tipo 
 
 ## **Mejoras V2**
 
-![Arquitectura de aplicación V2](https://drive.google.com/file/d/1xwVmUiRmhEDk8NcODnhCeiUa7YNHX1DE/view?usp=sharing)
+![arch_app_v2](https://github.com/hunterhamlet/AlboChallenge/assets/17347538/89ed17b8-a492-451e-8406-701edb55617d)
+
 
 En este caso lo unico que agregaria seria los servicios cloud, ya sea por medio de servicios rest, graphQL, Firebase, etc, ya que siento que la aplicación es escalable. De igual manera refactorizaria la parte y la haria modular, para que pueda agregarse mas features, pero esto ultimo esta pendiente de ser analizado, ya que al ser una aplciación simple, la estructura que tiene es ideal para su tarea.
 
